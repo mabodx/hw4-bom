@@ -1,19 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <analysisEngineDescription xmlns="http://uima.apache.org/resourceSpecifier">
   <frameworkImplementation>org.apache.uima.java</frameworkImplementation>
   <primitive>true</primitive>
   <annotatorImplementationName>foo.casconsumers.RetrievalEvaluator</annotatorImplementationName>
   <analysisEngineMetaData>
     <name>RetrievalEvaluator</name>
-    <description/>
+    <description>compute the cosine similarity of the sentence and rank them, then compute the MRR value.</description>
     <version>1.0</version>
     <vendor/>
-     <configurationParameters>
-      
-   </configurationParameters>
-    <configurationParameterSettings>
-      
-    </configurationParameterSettings>
+     <configurationParameters/>
+    <configurationParameterSettings/>
     <typeSystemDescription>
       <imports>            
         <import location="../typesystems/VectorSpaceTypes.xml"/>

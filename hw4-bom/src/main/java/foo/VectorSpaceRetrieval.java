@@ -35,6 +35,11 @@ import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.cas.CAS;
 import org.apache.uima.util.XMLInputSource;
 
+/**
+ * This class is the main class of all the file
+ * @author mabodx
+ *
+ */
 public class VectorSpaceRetrieval {
 	
 	public static void main(String [] args) 

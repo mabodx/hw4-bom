@@ -12,6 +12,7 @@ import foo.typesystems.Document;
 public class DocumentReader 
 extends JCasAnnotator_ImplBase  {
 	
+	
 	@Override
 	public void process(JCas jcas) 
 			throws AnalysisEngineProcessException {
@@ -43,7 +44,7 @@ extends JCasAnnotator_ImplBase  {
 		jcas.addFsToIndexes(doc);
 	}
 
-
+	
 	public static ArrayList<String> parseDataLine(String line) {
 		ArrayList<String> docInfo;
 

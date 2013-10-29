@@ -11,9 +11,10 @@ import org.apache.uima.jcas.cas.FSList;
 import org.apache.uima.jcas.tcas.Annotation;
 
 
-/** 
- * Updated by JCasGen Fri Oct 11 01:58:03 EDT 2013
- * XML source: /home/diwang/ur-workspace/hw4-bom/src/main/resources/descriptors/typesystems/VectorSpaceTypes.xml
+/** The basie annotation
+
+ * Updated by JCasGen Mon Oct 28 20:00:26 EDT 2013
+ * XML source: /Users/mabodx/git/hw4-bom/hw4-bom/src/main/resources/descriptors/typesystems/VectorSpaceTypes.xml
  * @generated */
 public class Document extends Annotation {
   /** @generated
@@ -66,14 +67,16 @@ public class Document extends Annotation {
   //*--------------*
   //* Feature: relevanceValue
 
-  /** getter for relevanceValue - gets 
+  /** getter for relevanceValue - gets about the relevance Value of each sentence 
+
    * @generated */
   public int getRelevanceValue() {
     if (Document_Type.featOkTst && ((Document_Type)jcasType).casFeat_relevanceValue == null)
       jcasType.jcas.throwFeatMissing("relevanceValue", "foo.typesystems.Document");
     return jcasType.ll_cas.ll_getIntValue(addr, ((Document_Type)jcasType).casFeatCode_relevanceValue);}
     
-  /** setter for relevanceValue - sets  
+  /** setter for relevanceValue - sets about the relevance Value of each sentence 
+ 
    * @generated */
   public void setRelevanceValue(int v) {
     if (Document_Type.featOkTst && ((Document_Type)jcasType).casFeat_relevanceValue == null)
@@ -84,14 +87,16 @@ public class Document extends Annotation {
   //*--------------*
   //* Feature: queryID
 
-  /** getter for queryID - gets 
+  /** getter for queryID - gets The query id that this sentence belongs to
+
    * @generated */
   public int getQueryID() {
     if (Document_Type.featOkTst && ((Document_Type)jcasType).casFeat_queryID == null)
       jcasType.jcas.throwFeatMissing("queryID", "foo.typesystems.Document");
     return jcasType.ll_cas.ll_getIntValue(addr, ((Document_Type)jcasType).casFeatCode_queryID);}
     
-  /** setter for queryID - sets  
+  /** setter for queryID - sets The query id that this sentence belongs to
+ 
    * @generated */
   public void setQueryID(int v) {
     if (Document_Type.featOkTst && ((Document_Type)jcasType).casFeat_queryID == null)
@@ -102,14 +107,16 @@ public class Document extends Annotation {
   //*--------------*
   //* Feature: text
 
-  /** getter for text - gets 
+  /** getter for text - gets The text information of the sentence
+
    * @generated */
   public String getText() {
     if (Document_Type.featOkTst && ((Document_Type)jcasType).casFeat_text == null)
       jcasType.jcas.throwFeatMissing("text", "foo.typesystems.Document");
     return jcasType.ll_cas.ll_getStringValue(addr, ((Document_Type)jcasType).casFeatCode_text);}
     
-  /** setter for text - sets  
+  /** setter for text - sets The text information of the sentence
+ 
    * @generated */
   public void setText(String v) {
     if (Document_Type.featOkTst && ((Document_Type)jcasType).casFeat_text == null)
@@ -120,14 +127,16 @@ public class Document extends Annotation {
   //*--------------*
   //* Feature: tokenList
 
-  /** getter for tokenList - gets 
+  /** getter for tokenList - gets The token in each sentence
+
    * @generated */
   public FSList getTokenList() {
     if (Document_Type.featOkTst && ((Document_Type)jcasType).casFeat_tokenList == null)
       jcasType.jcas.throwFeatMissing("tokenList", "foo.typesystems.Document");
     return (FSList)(jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas.ll_getRefValue(addr, ((Document_Type)jcasType).casFeatCode_tokenList)));}
     
-  /** setter for tokenList - sets  
+  /** setter for tokenList - sets The token in each sentence
+ 
    * @generated */
   public void setTokenList(FSList v) {
     if (Document_Type.featOkTst && ((Document_Type)jcasType).casFeat_tokenList == null)

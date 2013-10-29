@@ -1,8 +1,12 @@
 package foo.utils;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Scanner;
 
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.cas.EmptyFSList;
@@ -16,6 +20,8 @@ import org.apache.uima.jcas.tcas.Annotation;
 import org.uimafit.util.JCasUtil;
 
 public class Utils {
+	
+	
 	public static <T extends TOP> ArrayList<T> fromFSListToCollection(FSList list,
 			Class<T> classType) {
 
@@ -71,7 +77,7 @@ public class Utils {
 
 		return list;
 	}
-
+	
 	
 
 }

@@ -10,9 +10,10 @@ import org.apache.uima.jcas.cas.TOP_Type;
 import org.apache.uima.jcas.tcas.Annotation;
 
 
-/** 
- * Updated by JCasGen Fri Oct 11 01:58:03 EDT 2013
- * XML source: /home/diwang/ur-workspace/hw4-bom/src/main/resources/descriptors/typesystems/VectorSpaceTypes.xml
+/** Token type of the system
+
+ * Updated by JCasGen Mon Oct 28 20:00:26 EDT 2013
+ * XML source: /Users/mabodx/git/hw4-bom/hw4-bom/src/main/resources/descriptors/typesystems/VectorSpaceTypes.xml
  * @generated */
 public class Token extends Annotation {
   /** @generated
@@ -65,14 +66,16 @@ public class Token extends Annotation {
   //*--------------*
   //* Feature: text
 
-  /** getter for text - gets 
+  /** getter for text - gets The text information of the tokens
+
    * @generated */
   public String getText() {
     if (Token_Type.featOkTst && ((Token_Type)jcasType).casFeat_text == null)
       jcasType.jcas.throwFeatMissing("text", "foo.typesystems.Token");
     return jcasType.ll_cas.ll_getStringValue(addr, ((Token_Type)jcasType).casFeatCode_text);}
     
-  /** setter for text - sets  
+  /** setter for text - sets The text information of the tokens
+ 
    * @generated */
   public void setText(String v) {
     if (Token_Type.featOkTst && ((Token_Type)jcasType).casFeat_text == null)
@@ -83,14 +86,14 @@ public class Token extends Annotation {
   //*--------------*
   //* Feature: frequency
 
-  /** getter for frequency - gets 
+  /** getter for frequency - gets The frequency value of this term
    * @generated */
   public int getFrequency() {
     if (Token_Type.featOkTst && ((Token_Type)jcasType).casFeat_frequency == null)
       jcasType.jcas.throwFeatMissing("frequency", "foo.typesystems.Token");
     return jcasType.ll_cas.ll_getIntValue(addr, ((Token_Type)jcasType).casFeatCode_frequency);}
     
-  /** setter for frequency - sets  
+  /** setter for frequency - sets The frequency value of this term 
    * @generated */
   public void setFrequency(int v) {
     if (Token_Type.featOkTst && ((Token_Type)jcasType).casFeat_frequency == null)
