@@ -71,7 +71,7 @@ public class RetrievalEvaluator extends CasConsumer_ImplBase {
 		qIdList = new ArrayList<Integer>();
 
 		relList = new ArrayList<Integer>();
-		scoreList = new ArrayList<Double>();
+		
 		stringansArrayList = new ArrayList<String>();
 		Termvc = new ArrayList();
 		
@@ -150,6 +150,96 @@ public class RetrievalEvaluator extends CasConsumer_ImplBase {
 	}
 
 	/**
+	 * compute the different similarity score. 
+	 * rank sentence with their different score and calculate the MRR value.
+	 * @param similarity
+	 * @throws ResourceProcessException
+	 * @throws IOException
+	 */
+	public  void computesimilarity(String similarity) throws ResourceProcessException, IOException 
+	{
+		// TODO :: compute the cosine similarity measure
+		System.out.println(similarity);
+		scoreList = new ArrayList<Double>();
+		Iterator<HashMap<String, Integer>> ittermvector = Termvc.iterator();
+		Iterator<Integer> itrel = relList.iterator();
+		Iterator<Integer> itqid = qIdList.iterator();
+		int index, rel;
+		HashMap<String, Integer> tvcHashMap;
+		HashMap<String, Integer> query = null;
+		HashMap<Integer, Double> scores = new HashMap<Integer, Double>();
+		HashMap<Integer, Integer> finalrank = new HashMap<Integer, Integer>();
+		HashMap<Integer, String> finals = new HashMap<Integer, String>();
+
+		double ans = 0;
+		int rank = 0;
+		double score = 0;
+		Iterator<String> itstr = stringansArrayList.iterator();
+		while (itqid.hasNext()) {
+			String string = itstr.next();
+			index = itqid.next();
+			rel = itrel.next();
+			tvcHashMap = ittermvector.next();
+			double temp = 0;
+
+			if (rel != 99) {
+				if (similarity == "computeCosineSimilarity")
+					temp = computeCosineSimilarity(query, tvcHashMap);
+				else if (similarity == "computeDiceCoefficient")
+					temp = computeDiceCoefficient(query, tvcHashMap);
+				else if (similarity == "computeJaccardCoefficient")
+					temp = computeJaccardCoefficient(query, tvcHashMap);
+				else if (similarity == "computeOverlapCoefficient")
+					temp = computeOverlapCoefficient(query, tvcHashMap);
+				// System.out.println(temp);
+				if (rel == 1) {
+					scores.put(index, temp);
+					finalrank.put(index, 1);
+					finals.put(index, string);
+				}
+			} else {
+				query = tvcHashMap;
+			}
+			DecimalFormat df2 = (DecimalFormat) DecimalFormat.getInstance();
+			df2.setMaximumFractionDigits(4);
+			scoreList.add(temp);
+//			String ret = "Score: " + df2.format(temp) + "\trel=" + rel
+//					+ "\tqid=" + index + " " + string;
+//			System.out.println(ret);
+		}
+
+		itrel = relList.iterator();
+		itqid = qIdList.iterator();
+		Iterator<Double> itscore = scoreList.iterator();
+
+		while (itqid.hasNext()) {
+			index = itqid.next();
+			rel = itrel.next();
+			double temp = itscore.next();
+			if (rel == 0) {
+				double now = scores.get(index);
+				if (now < temp) {
+					int ranking = finalrank.get(index) + 1;
+					finalrank.put(index, ranking);
+				}
+			}
+		}
+
+		// TODO :: compute the rank of retrieved sentences
+		for (java.util.Map.Entry<Integer, Integer> entry : finalrank.entrySet()) {
+			int key = entry.getKey();
+			int value = entry.getValue();
+			String ret = "Score: " + scores.get(key) + "\trank=" + value
+					+ "\trel=1 qid=" + key + " " + finals.get(key);
+			System.out.println(ret);
+		}
+
+		// TODO :: compute the metric:: mean reciprocal rank
+		double metric_mrr = compute_mrr(finalrank);
+		System.out.println(" (MRR) Mean Reciprocal Rank ::" + metric_mrr);
+		System.out.println("****************************");
+	}
+	/**
 	 * TODO 1. Compute Cosine Similarity and rank the retrieved sentences 2.
 	 * First I use the the Hashmap list to compute the cosine similarity score of each sentence and rank them
 	 * Then Compute the MRR metric 
@@ -159,88 +249,94 @@ public class RetrievalEvaluator extends CasConsumer_ImplBase {
 			throws ResourceProcessException, IOException {
 
 		super.collectionProcessComplete(arg0);
-		
-		// TODO :: compute the cosine similarity measure
-		Iterator<HashMap<String, Integer>> ittermvector = Termvc.iterator();
-		Iterator<Integer> itrel = relList.iterator();
-		Iterator<Integer> itqid = qIdList.iterator();
-		int index, rel;
-		HashMap<String,Integer>tvcHashMap;
-		HashMap<String, Integer> query = null;
-		HashMap<Integer, Double> scores = new HashMap<Integer, Double>();
-		HashMap<Integer, Integer> finalrank = new HashMap<Integer, Integer>();
-		HashMap<Integer, String> finals = new HashMap<Integer, String>();
-		
-		double ans = 0;
-		int rank =0 ;
-		double score= 0;
-		Iterator<String> itstr = stringansArrayList.iterator();
-		while(itqid.hasNext())
-		{
-			String string  = itstr.next();
-			index = itqid.next();
-			rel = itrel.next();
-			tvcHashMap = ittermvector.next();
-			double temp = 0;
-			
-			if(rel!=99)
-			{
-				temp = computeCosineSimilarity(query, tvcHashMap);
-//				temp = computeDiceCoefficient(query, tvcHashMap);
-//				temp = computeJaccardCoefficient(query, tvcHashMap);
-				temp = computeOverlapCoefficient(query, tvcHashMap);
-//				System.out.println(temp);
-				if(rel==1)
-				{
-					scores.put(index, temp);
-					finalrank.put(index, 1);
-					finals.put(index,string);
-				}
-			}
-			else {
-				query = tvcHashMap;
-			}
-			DecimalFormat df2 = (DecimalFormat)DecimalFormat.getInstance();
-			df2.setMaximumFractionDigits(4);
-			scoreList.add(temp);
-			String ret = "Score: "+df2.format(temp)+"\trel="+rel+"\tqid="+index+" "+string;
-			System.out.println(ret);
-		}
+		computesimilarity("computeDiceCoefficient");
+		computesimilarity("computeJaccardCoefficient");
+		computesimilarity("computeCosineSimilarity");
+		computesimilarity("computeOverlapCoefficient");
 		
 		
-		itrel = relList.iterator();
-		itqid = qIdList.iterator();
-		Iterator<Double> itscore= scoreList.iterator();
 		
-		while(itqid.hasNext())
-		{
-			index = itqid.next();
-			rel = itrel.next();
-			double temp = itscore.next();
-			if(rel==0)
-			{
-				double now = scores.get(index);
-				if(now<temp)
-				{
-					int ranking = finalrank.get(index)+1;
-					finalrank.put(index, ranking);
-				}
-			}
-		}
-		
-		// TODO :: compute the rank of retrieved sentences
-		for (java.util.Map.Entry<Integer, Integer> entry : finalrank.entrySet())
-		{
-			int key = entry.getKey();
-			int value = entry.getValue();
-			String ret = "Score: "+scores.get(key)+"\trank="+value+"\trel=1 qid="+key+" "+finals.get(key);
-			System.out.println(ret);
-		}
-		
-		
-		// TODO :: compute the metric:: mean reciprocal rank
-		double metric_mrr = compute_mrr(finalrank);
-		System.out.println(" (MRR) Mean Reciprocal Rank ::" + metric_mrr);
+//		// TODO :: compute the cosine similarity measure
+//		Iterator<HashMap<String, Integer>> ittermvector = Termvc.iterator();
+//		Iterator<Integer> itrel = relList.iterator();
+//		Iterator<Integer> itqid = qIdList.iterator();
+//		int index, rel;
+//		HashMap<String,Integer>tvcHashMap;
+//		HashMap<String, Integer> query = null;
+//		HashMap<Integer, Double> scores = new HashMap<Integer, Double>();
+//		HashMap<Integer, Integer> finalrank = new HashMap<Integer, Integer>();
+//		HashMap<Integer, String> finals = new HashMap<Integer, String>();
+//		
+//		double ans = 0;
+//		int rank =0 ;
+//		double score= 0;
+//		Iterator<String> itstr = stringansArrayList.iterator();
+//		while(itqid.hasNext())
+//		{
+//			String string  = itstr.next();
+//			index = itqid.next();
+//			rel = itrel.next();
+//			tvcHashMap = ittermvector.next();
+//			double temp = 0;
+//			
+//			if(rel!=99)
+//			{
+//				temp = computeCosineSimilarity(query, tvcHashMap);
+////				temp = computeDiceCoefficient(query, tvcHashMap);
+////				temp = computeJaccardCoefficient(query, tvcHashMap);
+//				temp = computeOverlapCoefficient(query, tvcHashMap);
+////				System.out.println(temp);
+//				if(rel==1)
+//				{
+//					scores.put(index, temp);
+//					finalrank.put(index, 1);
+//					finals.put(index,string);
+//				}
+//			}
+//			else {
+//				query = tvcHashMap;
+//			}
+//			DecimalFormat df2 = (DecimalFormat)DecimalFormat.getInstance();
+//			df2.setMaximumFractionDigits(4);
+//			scoreList.add(temp);
+//			String ret = "Score: "+df2.format(temp)+"\trel="+rel+"\tqid="+index+" "+string;
+//			System.out.println(ret);
+//		}
+//		
+//		
+//		itrel = relList.iterator();
+//		itqid = qIdList.iterator();
+//		Iterator<Double> itscore= scoreList.iterator();
+//		
+//		while(itqid.hasNext())
+//		{
+//			index = itqid.next();
+//			rel = itrel.next();
+//			double temp = itscore.next();
+//			if(rel==0)
+//			{
+//				double now = scores.get(index);
+//				if(now<temp)
+//				{
+//					int ranking = finalrank.get(index)+1;
+//					finalrank.put(index, ranking);
+//				}
+//			}
+//		}
+//		
+//		// TODO :: compute the rank of retrieved sentences
+//		for (java.util.Map.Entry<Integer, Integer> entry : finalrank.entrySet())
+//		{
+//			int key = entry.getKey();
+//			int value = entry.getValue();
+//			String ret = "Score: "+scores.get(key)+"\trank="+value+"\trel=1 qid="+key+" "+finals.get(key);
+//			System.out.println(ret);
+//		}
+//		
+//		
+//		// TODO :: compute the metric:: mean reciprocal rank
+//		double metric_mrr = compute_mrr(finalrank);
+//		System.out.println(" (MRR) Mean Reciprocal Rank ::" + metric_mrr);
 	}
 
 	/**
