@@ -188,7 +188,7 @@ public class RetrievalEvaluator extends CasConsumer_ImplBase {
 				temp = computeCosineSimilarity(query, tvcHashMap);
 //				temp = computeDiceCoefficient(query, tvcHashMap);
 //				temp = computeJaccardCoefficient(query, tvcHashMap);
-				
+				temp = computeOverlapCoefficient(query, tvcHashMap);
 //				System.out.println(temp);
 				if(rel==1)
 				{
@@ -342,7 +342,35 @@ public class RetrievalEvaluator extends CasConsumer_ImplBase {
     	
     	
     }
-	
+    /**
+     * calculate the JaccardCoefficient of the document
+     * @param queryVector
+     * @param docVector
+     * @return
+     */
+    private double computeOverlapCoefficient(Map<String, Integer> queryVector, Map<String, Integer> docVector) {	
+    	  double all=0;
+          double diceCoefficient = 0;
+          
+          for (java.util.Map.Entry<String, Integer> entry : queryVector.entrySet())
+  		{
+  			String key  = entry.getKey();
+  			int value = entry.getValue();
+  			if(docVector.containsKey(key))
+  			{
+  				all +=1;
+  			}
+  			
+  		}
+          
+         
+          double len = Math.min(queryVector.size(),docVector.size());
+  		
+          diceCoefficient =  all/len;
+                         
+          return diceCoefficient;
+    	
+    }
 	/**
 	 * compute the MRR value 
 	 * @return mrr
