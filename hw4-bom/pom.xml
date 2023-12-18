@@ -8,17 +8,17 @@
 	<repositories>
 		<repository>
 			<id>oaqa</id>
-			<url>http://mu.lti.cs.cmu.edu:8081/nexus/content/groups/course</url>
+			<url>https://mu.lti.cs.cmu.edu:8081/nexus/content/groups/course</url>
 		</repository>
 	</repositories>
 	<distributionManagement>
 		<repository>
 			<id>deployment</id>
-			<url>http://mu.lti.cs.cmu.edu:8081/nexus/content/repositories/course-releases</url>
+			<url>https://mu.lti.cs.cmu.edu:8081/nexus/content/repositories/course-releases</url>
 		</repository>
 		<snapshotRepository>
 			<id>snapshots</id>
-			<url>http://mu.lti.cs.cmu.edu:8081/nexus/content/repositories/course-snapshots</url>
+			<url>https://mu.lti.cs.cmu.edu:8081/nexus/content/repositories/course-snapshots</url>
 		</snapshotRepository>
 	</distributionManagement>
 
